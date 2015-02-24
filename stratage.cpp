@@ -6,7 +6,7 @@ class ISurfStratage
 {
 public:
 	virtual void doSurfing(  ) = 0;
-	~ISurfStratage(  ) {
+	virtual ~ISurfStratage(  ) {
 		
 	}
 };
