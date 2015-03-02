@@ -4,6 +4,9 @@
 using namespace std;
 
 class IVisitor;
+class FileElement;
+class FolderElement;
+
 // abstract element
 class IElement
 {
@@ -11,34 +14,55 @@ public:
 	virtual void getName(  ) = 0;
 	virtual void getSize(  ) = 0;
 	virtual void accept( IVisitor* visitor ) = 0;
-	virtual ~IElement(  ) {
+	virtual ~IElement(  )
+	{
 	}
 };
 
 class IVisitor
 {
 public:
-	virtual void doVisit( IElement* elem ) = 0;
-	virtual ~IVisitor(  ) {
-		
+	virtual void doVisit( FileElement* elem ) = 0;
+	virtual void doVisit( FolderElement* elem ) = 0;
+	virtual ~IVisitor(  )
+	{
 	}
 };
 
-class SizeVisitor : public IVisitor
+class DefaultVisitor : public IVisitor
 {
 public:
-	virtual void doVisit( IElement* elem )
+	virtual void doVisit( FileElement* elem );
+	virtual void doVisit( FolderElement* elem );
+	virtual ~DefaultVisitor(  )
 	{
-		elem->getSize(  );
 	}
 };
 
-class NameVisitor : public IVisitor
+//default implements
+void DefaultVisitor::doVisit( FileElement* elem )
+{
+}
+
+void DefaultVisitor::doVisit( FolderElement* elem )
+{
+}
+
+class FileVisitor : public DefaultVisitor
 {
 public:
-	virtual void doVisit( IElement* elem )
+	virtual void doVisit( FileElement* elem )
 	{
-		elem->getName(  );		
+		cout<<"This is a file"<<endl;
+	}
+};
+
+class FolderVisitor : public DefaultVisitor
+{
+public:
+	virtual void doVisit( FolderElement* elem )
+	{
+		cout<<"This is a folder"<<endl;
 	}
 };
 
@@ -128,12 +152,12 @@ int main( void )
 	fs.addElement( &fileElem );
 	fs.addElement( &folderElem );
 
-	SizeVisitor sizeVisitor;
-	cout<<"size visitor----"<<endl;
-	fs.applyVisitor( &sizeVisitor );
-	NameVisitor nameVisitor;
-	cout<<"name visitor----"<<endl;
-	fs.applyVisitor( &nameVisitor );
+	FileVisitor fileVisitor;
+	cout<<"file visitor----"<<endl;
+	fs.applyVisitor( &fileVisitor );
+	FolderVisitor folderVisitor;
+	cout<<"folder visitor----"<<endl;
+	fs.applyVisitor( &folderVisitor );
 
 	return 0;
 }
