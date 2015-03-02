@@ -43,7 +43,8 @@ public:
 class FileElement : public IElement
 {
 public:
-	FileElement( char* name, const int size ):m_Name( name ), m_Size( size )
+	FileElement( char* name, const int size )
+		:m_Name( name ), m_Size( size )
 	{
 		
 	}
@@ -63,7 +64,8 @@ private:
 class FolderElement : public IElement
 {
 public:
-	FolderElement( char* name, const int size ):m_Name( name ), m_Size( size )
+	FolderElement( char* name, const int size )
+		:m_Name( name ), m_Size( size )
 	{
 		
 	}
