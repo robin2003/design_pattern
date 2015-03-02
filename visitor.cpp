@@ -3,12 +3,14 @@
 
 using namespace std;
 
+class IVisitor;
 // abstract element
 class IElement
 {
 public:
 	virtual void getName(  ) = 0;
 	virtual void getSize(  ) = 0;
+	virtual void accept( IVisitor* visitor ) = 0;
 	virtual ~IElement(  ) {
 	}
 };
@@ -56,6 +58,12 @@ public:
 	{
 		cout<<"file:"<<m_Name<<"  size:"<<m_Size<<endl;
 	}
+
+	virtual void accept( IVisitor* visitor )
+	{
+		visitor->doVisit( this );
+	}
+
 private:
 	char* m_Name;
 	int m_Size;
@@ -77,7 +85,12 @@ public:
 	virtual void getSize(  )
 	{
 		cout<<"folder:"<<m_Name<<"  size:"<<m_Size<<endl;
-	}	
+	}
+
+	virtual void accept( IVisitor* visitor )
+	{
+		visitor->doVisit( this );
+	}
 private:
 	char* m_Name;
 	int m_Size;
@@ -96,7 +109,7 @@ public:
 		for( ; it != m_Elements.end(  ); it++ )
 		{
 			IElement* elem = *it;
-			visitor->doVisit( elem );
+			elem->accept( visitor );
 		}
 	}
 private:
