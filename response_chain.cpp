@@ -43,10 +43,20 @@ public:
 	{
 		return successor;
 	}
-	
+
 	virtual ~ILevelProcessor(  )
 	{
 	}
+	
+protected:
+	void successorProcess( Request* req )
+	{
+		if( successor != NULL )
+		{
+			successor->process( req );
+		}
+	}
+	
 private:
 	ILevelProcessor* successor;
 };
@@ -62,11 +72,7 @@ public:
 			return;
 		}
 
-		ILevelProcessor* successor = getSuccessor(  );
-		if( successor != NULL )
-		{
-			successor->process( req );	
-		}
+		successorProcess( req );
 	}
 };
 
@@ -80,12 +86,8 @@ public:
 			cout<<"high level processor"<<endl;
 			return;
 		}
-
-		ILevelProcessor* successor = getSuccessor(  );
-		if( successor != NULL )
-		{
-			successor->process( req );	
-		}
+		
+		successorProcess( req );
 	}
 };
 
@@ -100,18 +102,12 @@ public:
 			return;
 		}
 
-		ILevelProcessor* successor = getSuccessor(  );
-		if( successor != NULL )
-		{
-			successor->process( req );	
-		}
+		successorProcess( req );
 	}
 };
 
 int main( void )
 {
-	Request request( LOW );
-
 	HighLevelProcessor high;
 	MiddleLevelProcessor mid;
 	LowLevelProcessor low;
@@ -120,11 +116,15 @@ int main( void )
 	mid.setSuccessor( &high );
 	high.setSuccessor( NULL );
 
+	// low level
+	Request request( LOW );
 	low.process( &request );
 
+	// high level
 	request.setLevel( HIGH );
 	low.process( &request );
 
+	// middle level
 	request.setLevel( MIDDLE );
 	low.process( &request );
 
