@@ -11,8 +11,6 @@ class FolderElement;
 class IElement
 {
 public:
-	virtual void getName(  ) = 0;
-	virtual void getSize(  ) = 0;
 	virtual void accept( IVisitor* visitor ) = 0;
 	virtual ~IElement(  )
 	{
@@ -32,21 +30,16 @@ public:
 class DefaultVisitor : public IVisitor
 {
 public:
-	virtual void doVisit( FileElement* elem );
-	virtual void doVisit( FolderElement* elem );
+	virtual void doVisit( FileElement* elem )
+	{
+	}
+	virtual void doVisit( FolderElement* elem )
+	{
+	}
 	virtual ~DefaultVisitor(  )
 	{
 	}
 };
-
-//default implements
-void DefaultVisitor::doVisit( FileElement* elem )
-{
-}
-
-void DefaultVisitor::doVisit( FolderElement* elem )
-{
-}
 
 class FileVisitor : public DefaultVisitor
 {
@@ -66,58 +59,37 @@ public:
 	}
 };
 
+class FileFolderVisitor : public DefaultVisitor
+{
+public:
+	virtual void doVisit( FileElement* elem )
+	{
+		cout<<"This is a file"<<endl;
+	}
+
+	virtual void doVisit( FolderElement* elem )
+	{
+		cout<<"This is a folder"<<endl;
+	}
+
+};
+
 class FileElement : public IElement
 {
 public:
-	FileElement( char* name, const int size )
-		:m_Name( name ), m_Size( size )
-	{
-		
-	}
-	virtual void getName(  )
-	{
-		cout<<"File name is "<<m_Name<<endl;
-	}
-	virtual void getSize(  )
-	{
-		cout<<"file:"<<m_Name<<"  size:"<<m_Size<<endl;
-	}
-
 	virtual void accept( IVisitor* visitor )
 	{
 		visitor->doVisit( this );
 	}
-
-private:
-	char* m_Name;
-	int m_Size;
 };
 
 class FolderElement : public IElement
 {
 public:
-	FolderElement( char* name, const int size )
-		:m_Name( name ), m_Size( size )
-	{
-		
-	}
-	virtual void getName(  )
-	{
-		cout<<"Folder name is "<<m_Name<<endl;
-	}
-	
-	virtual void getSize(  )
-	{
-		cout<<"folder:"<<m_Name<<"  size:"<<m_Size<<endl;
-	}
-
 	virtual void accept( IVisitor* visitor )
 	{
 		visitor->doVisit( this );
 	}
-private:
-	char* m_Name;
-	int m_Size;
 };
 
 class FileSystem
@@ -146,8 +118,8 @@ static FileSystem fs;
 int main( void )
 {
 
-	FileElement fileElem( "file1" , 100 );
-	FolderElement folderElem( "folder1" , 200 );
+	FileElement fileElem;
+	FolderElement folderElem;
 
 	fs.addElement( &fileElem );
 	fs.addElement( &folderElem );
@@ -155,9 +127,14 @@ int main( void )
 	FileVisitor fileVisitor;
 	cout<<"file visitor----"<<endl;
 	fs.applyVisitor( &fileVisitor );
+	
 	FolderVisitor folderVisitor;
 	cout<<"folder visitor----"<<endl;
 	fs.applyVisitor( &folderVisitor );
 
+	FileFolderVisitor filefoldervisitor;
+	cout<<"file folder visitor----"<<endl;
+	fs.applyVisitor( &filefoldervisitor );
+	
 	return 0;
 }
