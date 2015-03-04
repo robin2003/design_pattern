@@ -40,7 +40,7 @@ public:
 		cout<<"adaptee AC charger for mobile"<<endl;
 		m_charger->charge(  );
 	}
-	
+
 private:
 	boost::scoped_ptr<ICharger> m_charger;
 
@@ -58,7 +58,7 @@ public:
 	{
 		m_charger.doCharge(  );
 	}
-	
+
 private:
 	ACChargerAdaptee m_charger;
 	string m_type;
