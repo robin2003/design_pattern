@@ -26,10 +26,10 @@ public:
 	}
 };
 
-class ChargerAdaptee
+class ACChargerAdaptee
 {
 public:
-	ChargerAdaptee(  )
+	ACChargerAdaptee(  )
 		:m_charger( new ACCharger(  ) )
 	{
 	}
@@ -60,7 +60,7 @@ public:
 	}
 	
 private:
-	ChargerAdaptee m_charger;
+	ACChargerAdaptee m_charger;
 	string m_type;
 };
 
@@ -71,5 +71,5 @@ int main( void )
 	Mobile mobile( type );
 	mobile.doCharge(  );
 	
-	return 0;x
+	return 0;
 }
