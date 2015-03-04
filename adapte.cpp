@@ -18,7 +18,7 @@ class ACCharger : public ICharger
 public:
 	virtual void charge(  )
 	{
-		cout<<"AC charger....."<<endl;
+		cout<<"AC charging....."<<endl;
 	}
 	~ACCharger(  )
 	{
@@ -71,5 +71,5 @@ int main( void )
 	Mobile mobile( type );
 	mobile.doCharge(  );
 	
-	return 0;
+	return 0;x
 }
