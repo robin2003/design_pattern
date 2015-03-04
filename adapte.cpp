@@ -13,40 +13,54 @@ public:
 	}
 };
 
-class USBCharger : public ICharger
+class ACCharger : public ICharger
 {
 public:
 	virtual void charge(  )
 	{
-		cout<<"usb charger....."<<endl;
+		cout<<"AC charger....."<<endl;
 	}
-	~USBCharger(  )
+	~ACCharger(  )
 	{
-		cout<<"usb charger finished"<<endl;
+		cout<<"AC charger finished"<<endl;
 	}
+};
+
+class ChargerAdaptee
+{
+public:
+	ChargerAdaptee(  )
+		:m_charger( new ACCharger(  ) )
+	{
+	}
+	
+	void doCharge(  )
+	{
+		assert( m_charger != NULL );
+		cout<<"adaptee AC charger for mobile"<<endl;
+		m_charger->charge(  );
+	}
+	
+private:
+	boost::scoped_ptr<ICharger> m_charger;
+
 };
 
 class Mobile
 {
 public:
 	explicit Mobile( const string& type )
-		: m_charger(NULL), m_type( type )
+		: m_type( type )
 	{
-	}
-	
-	void init(  )
-	{
-		m_charger.reset( new USBCharger(  ) );
 	}
 	
 	void doCharge(  )
 	{
-		assert( m_charger != NULL );
-		m_charger->charge(  );
+		m_charger.doCharge(  );
 	}
 	
 private:
-	boost::scoped_ptr<ICharger> m_charger;
+	ChargerAdaptee m_charger;
 	string m_type;
 };
 
@@ -55,7 +69,6 @@ int main( void )
 {
 	string type( "samsung" );
 	Mobile mobile( type );
-	mobile.init(  );
 	mobile.doCharge(  );
 	
 	return 0;
