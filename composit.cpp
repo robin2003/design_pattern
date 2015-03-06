@@ -27,7 +27,19 @@ public:
 		return m_name;
 	}
 
-	virtual void display(  ) const = 0;
+	virtual void display( int depth ) const = 0;
+
+	
+protected:
+	void printDepth( int depth ) const
+	{
+		while( depth )
+		{
+			depth--;
+			cout<<"---";
+		}
+	}
+
 private:
 	string m_name;
 };
@@ -40,10 +52,11 @@ public:
 	{
 	}
 
-	void display(  ) const
+	void display( int depth ) const
 	{
 		const string& name = getName(  );
-		cout<<name<<endl;
+		printDepth( depth );
+		cout<<"---leaf "<<name<<endl;
 	}
 };
 
@@ -74,15 +87,17 @@ public:
 		}
 	}
 
-	void display(  ) const
+	void display( int depth = 0 ) const
 	{
-		cout<<"---composit "<<getName(  )<<" ---"<<endl;
-		cout<<"------sub "<<" ------"<<endl;
+		printDepth( depth );
+		depth++;
+		
+		cout<<"---composit "<<getName(  )<<endl;
 		list<IComponent*>::const_iterator iter = m_lists.begin(  );
 		for( ;iter != m_lists.end(  ); iter++ )
 		{
 			const IComponent* comp = *iter;
-			comp->display(  );
+			comp->display( depth );
 		}
 	}
 	
@@ -103,7 +118,7 @@ int main(  )
 	Leaf lf3( string( "lf3" ) );
 	comp2.add( &lf3 );
 
-	comp2.display(  );
+	comp2.display( 0 );
 	
 	return 0;
 }
