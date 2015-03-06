@@ -27,7 +27,7 @@ public:
 		return m_name;
 	}
 
-	~IComponent(  )
+	virtual ~IComponent(  )
 	{
 	}
 	
