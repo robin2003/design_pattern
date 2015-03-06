@@ -27,6 +27,10 @@ public:
 		return m_name;
 	}
 
+	~IComponent(  )
+	{
+	}
+	
 	virtual void display( int depth ) const = 0;
 
 	
