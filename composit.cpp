@@ -122,7 +122,7 @@ int main(  )
 	Leaf lf3( string( "lf3" ) );
 	comp2.add( &lf3 );
 
-	comp2.display( 0 );
+	comp2.display(  );
 	
 	return 0;
 }
