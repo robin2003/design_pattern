@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <list>
 #include <boost/shared_ptr.hpp>
 
 using namespace std;
@@ -41,11 +41,19 @@ class MemoMgr
 {
 public:
 	typedef boost::shared_ptr<GameMemo> GAME_MEMO_PTR;
-	typedef vector<GAME_MEMO_PTR >::iterator GAME_MEMO_ITER;
+	typedef list<GAME_MEMO_PTR >::iterator GAME_MEMO_ITER;
+	explicit MemoMgr( int size = 0 )
+		:m_size( size )
+	{
+	}
 	
 	void addMemo( GameMemo* memo )
 	{
 		GAME_MEMO_PTR tmp( memo );
+		if( m_memos.size(  ) >= m_size )
+		{
+			m_memos.pop_front(  );
+		}
 		m_memos.push_back( tmp );
 	}
 	
@@ -55,17 +63,19 @@ public:
 		GAME_MEMO_ITER iter = m_memos.begin(  );
 		for( ; iter != m_memos.end(  ); iter++ )
 		{
-			memo = ( *iter ).get(  );
-			if( memo->getIndex(  ) == index )
+			GameMemo* tmp = ( *iter ).get(  );
+			if( tmp->getIndex(  ) == index )
 			{
-				return memo;
+				memo = tmp;
+				break;
 			}
 		}
 
 		return memo;
 	}
 private:
-	vector<GAME_MEMO_PTR> m_memos;
+	int m_size;
+	list<GAME_MEMO_PTR> m_memos;
 };
 
 class Game
@@ -83,6 +93,12 @@ public:
 
 	void resetGame( GameMemo* memo )
 	{
+		if( memo == NULL )
+		{
+			cout<<"can't reset, invalid memo"<<endl;
+			return;
+		}
+		cout<<"here"<<endl;
 		m_index = memo->getIndex(  );
 		m_scene = memo->getScene(  );
 	}
@@ -109,7 +125,7 @@ private:
 
 int main( void )
 {
-	MemoMgr memoMgr;
+	MemoMgr memoMgr( 1 );
 	GameMemo* memo = NULL;
 	Game game( 0, 0 );
 
@@ -134,8 +150,8 @@ int main( void )
 	memoMgr.addMemo( memo );
 	game.toString(  );
 	
-	cout<<"rollback to 2"<<endl;
-	memo = memoMgr.getMemo( 2 );
+	cout<<"rollback to 1"<<endl;
+	memo = memoMgr.getMemo( 1 );
 	game.resetGame( memo );
 	game.toString(  );
 	
