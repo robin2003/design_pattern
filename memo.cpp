@@ -98,7 +98,6 @@ public:
 			cout<<"can't reset, invalid memo"<<endl;
 			return;
 		}
-		cout<<"here"<<endl;
 		m_index = memo->getIndex(  );
 		m_scene = memo->getScene(  );
 	}
