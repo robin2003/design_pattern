@@ -49,7 +49,10 @@ public:
 		: Meeting( place, date )
 	{
 	}
-
+	~BoardMeeting(  )
+	{
+		cout<<"------------destroy BoardMeeting"<<endl;
+	}
 protected:
 	virtual void checking(  )
 	{
