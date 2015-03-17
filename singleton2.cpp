@@ -1,4 +1,5 @@
 #include <pthread.h>		
+#include <assert.h>
 #include <iostream>
 
 using namespace std;
@@ -92,5 +93,8 @@ int main( void )
 	Singlton* instance = Singlton::getInstance(  );
 	instance->doSomeThing(  );
 
+	Singlton* instance2 = Singlton::getInstance(  );
+	assert( instance == instance2 );
+	
 	return 0;
 }
