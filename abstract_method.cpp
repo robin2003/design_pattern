@@ -5,15 +5,15 @@
 
 using namespace std;
 
-class IBike
+class Bike
 {
 public:
-	IBike( const string& type )
+	Bike( const string& type )
 		:m_type( type )
 	{
 	}
 	virtual void ride(  ) = 0;
-	virtual ~IBike(  )
+	virtual ~Bike(  )
 	{
 	}
 	string& getType(  )
@@ -24,11 +24,12 @@ private:
 	string m_type;
 };
 
-class SmartBike : public IBike
+
+class SmartBike : public Bike
 {
 public:
 	SmartBike( const string& type  )
-		:IBike( type )
+		:Bike( type )
 	{
 		cout<<"smart bike created"<<endl;
 	}
@@ -42,11 +43,11 @@ public:
 	}
 };
 
-class NormalBike : public IBike
+class NormalBike : public Bike
 {
 public:
 	NormalBike( const string& type )
-		:IBike( type )
+		:Bike( type )
 	{
 		cout<<"normal bike created"<<endl;
 	}
@@ -63,8 +64,8 @@ public:
 class IFactory
 {
 public:
-	virtual boost::shared_ptr<IBike> createNormal(  ) = 0 ;
-	virtual boost::shared_ptr<IBike> createSmart(  ) = 0 ;
+	virtual boost::shared_ptr<Bike> createNormal(  ) = 0 ;
+	virtual boost::shared_ptr<Bike> createSmart(  ) = 0 ;
 	virtual ~IFactory(  )
 	{
 	}
@@ -77,15 +78,15 @@ public:
 	{
 		cout<<"giant bike factory created----"<<endl;
 	}
-	boost::shared_ptr<IBike> createNormal(  )
+	boost::shared_ptr<Bike> createNormal(  )
 	{
-		boost::shared_ptr<IBike> bike( new NormalBike( string( "Giant" )  ) );
+		boost::shared_ptr<Bike> bike( new NormalBike( string( "Giant" )  ) );
 		return bike;
 	}
 	
-	boost::shared_ptr<IBike> createSmart(  )
+	boost::shared_ptr<Bike> createSmart(  )
 	{
-		boost::shared_ptr<IBike> bike( new SmartBike( string( "Giant" ) ) );
+		boost::shared_ptr<Bike> bike( new SmartBike( string( "Giant" ) ) );
 		return bike;
 	}
 
@@ -103,14 +104,14 @@ public:
 		cout<<"merrida bike factory created----"<<endl;
 	}
 	
-	boost::shared_ptr<IBike> createNormal(  )
+	boost::shared_ptr<Bike> createNormal(  )
 	{
-		boost::shared_ptr<IBike> bike( new NormalBike( string( "Merrida" )  ) );
+		boost::shared_ptr<Bike> bike( new NormalBike( string( "Merrida" )  ) );
 		return bike;
 	}
-	boost::shared_ptr<IBike> createSmart(  )
+	boost::shared_ptr<Bike> createSmart(  )
 	{
-		boost::shared_ptr<IBike> bike( new SmartBike( string( "Merrida" ) ) );
+		boost::shared_ptr<Bike> bike( new SmartBike( string( "Merrida" ) ) );
 		return bike;
 	}
 
@@ -125,8 +126,8 @@ int main( void )
 	auto_ptr<IFactory> Giant;
 	Giant.reset( new GiantBikeFactory(  ) );
 
-	boost::shared_ptr<IBike> normal;
-	boost::shared_ptr<IBike> smart;
+	boost::shared_ptr<Bike> normal;
+	boost::shared_ptr<Bike> smart;
 
 	//giant factory
 	normal = Giant->createNormal(  );
