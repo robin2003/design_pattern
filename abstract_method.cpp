@@ -13,12 +13,13 @@ public:
 	{
 	}
 	virtual void ride(  ) = 0;
-	virtual ~Bike(  )
-	{
-	}
 	string getType(  ) const
 	{
 		return m_type;
+	}
+
+	virtual ~Bike(  )
+	{
 	}
 private:
 	string m_type;
