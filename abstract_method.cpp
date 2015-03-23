@@ -16,7 +16,7 @@ public:
 	virtual ~Bike(  )
 	{
 	}
-	string& getType(  )
+	string getType(  ) const
 	{
 		return m_type;
 	}
