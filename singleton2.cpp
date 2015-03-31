@@ -33,7 +33,7 @@ private:
 class MutexHelper
 {
 public:
-	MutexHelper( Mutex mutex )
+	MutexHelper( Mutex& mutex )
 		:m_mutex( mutex )
 	{
 		m_mutex.lock(  );
@@ -44,7 +44,7 @@ public:
 		m_mutex.unlock(  );
 	}
 private:
-	Mutex m_mutex;
+	Mutex& m_mutex;
 };
 
 class Singlton
